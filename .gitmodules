@@ -7,3 +7,6 @@
 [submodule "lib/Met-One-Aerocet-531s-serial"]
 	path = lib/Met-One-Aerocet-531s-serial
 	url = git://github.com/HarshavardhanAnne/Met-One-Aerocet-531s-serial.git
+[submodule "lib/am2315"]
+	path = lib/am2315
+	url = git://github.com/lexruee/am2315.git
