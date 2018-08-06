@@ -4,6 +4,9 @@ import sys
 import os
 import os.path
 from datetime import datetime
+sys.path.insert(0, './lib/Met-One-Aerocet-531s-serial/')
+sys.path.insert(0, './lib/REED-SD-4023-serial/')
+sys.path.insert(0, './lib/AethLabs-MA200-serial/')
 from sd_4023 import SD_4023
 from aerocet531s import Aerocet531s
 from ma200 import MA200
@@ -26,6 +29,7 @@ else:
     PATH_TO_USB = ''
 
 ###CONSTANTS####
+_DEBUGVAR_ = True
 AERO_FILE_NAME = PATH_TO_USB + 'output_aerocet531.log'
 SD_FILE_NAME = PATH_TO_USB + 'output_sd4023.log'
 CO2_FILE_NAME = PATH_TO_USB + 'output_co2.log'
@@ -79,29 +83,39 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(STATUS_LED_PIN,GPIO.OUT)
 GPIO.output(STATUS_LED_PIN,0)
 
-#
+
 aethlabs_symlink = '/dev/aethlabs'
 aethlabs_port = None
+aerocet_port = None
+sd_port = None
+port_list = None
+
 if aethlabs_symlink in getdevices.serial_ports():
     aethlabs_port = '/dev/' + getdevices.get_sym_link(aethlabs_symlink)
 else:
-    print ("Unable to find symbolically linked port")
+    if (_DEBUGVAR_): print ("Unable to find symbolically linked port")
 
 port_list = getdevices.serial_ports('/dev/ttyUSB*')
 
-wap = 0
-print ("Before:")
-for p in port_list:
-    print ("%d: %s" % (wap,p))
-    wap += 1
-if aethlabs_port is not None: port_list.remove(aethlabs_port)
+if (_DEBUGVAR_):
+    wap = 0
+    print ("Before:")
+    for p in port_list:
+        print ("%d: %s" % (wap,p))
+        wap += 1
+if aethlabs_port is not None and port_list is not None: port_list.remove(aethlabs_port)
 
-print ("After:")
-for p in port_list:
-    print (p)
+if (_DEBUGVAR_):
+    print ("After:")
+    for p in port_list:
+        print (p)
 
-sdObject = SD_4023(port_list[0],1)
-aeroObject = Aerocet531s(38400,port_list[1],1)
+if port_list is not None:
+    sd_port = port_list[0]
+    aerocet_port = port_list[1]
+
+sdObject = SD_4023(sd_port,1)
+aeroObject = Aerocet531s(38400,aerocet_port,1)
 maObject = MA200(aethlabs_symlink,1)
 mcp = MCP3008(clk=CLK, cs=CS, miso=MISO, mosi=MOSI)
 
