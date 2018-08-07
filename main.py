@@ -13,11 +13,7 @@ from ma200 import MA200
 import Adafruit_GPIO.SPI as SPI
 from Adafruit_MCP3008 import MCP3008
 import getdevices
-import RPi.GPIO as GPIO
-
-#Redirection all print statments to a log file
-timestr = PATH_TO_USB + time.strftime("%Y%m%d-%H%M%S") + "_debug.log"
-sys.stdout = open(timestr,"w")
+#import RPi.GPIO as GPIO
 
 usb_paths = getdevices.serial_ports('/dev/sd*')
 for i in usb_paths:
@@ -27,6 +23,10 @@ if len(usb_paths) > 0:
     PATH_TO_USB = '/media/usb0/'
 else:
     PATH_TO_USB = ''
+
+#Redirection all print statments to a log file
+timestr = PATH_TO_USB + time.strftime("%Y%m%d-%H%M%S") + "_debug.log"
+sys.stdout = open(timestr,"w")
 
 ###CONSTANTS####
 _DEBUGVAR_ = True
@@ -45,7 +45,7 @@ ADC_CO2_PIN = 0
 ADC_FLOW_PIN = 2
 ADC_TMP_PIN = 4
 NUM_MIN_RUN = 5
-STATUS_LED_PIN = 5 #RPi GPIO_5
+#STATUS_LED_PIN = 5 #RPi GPIO_5
 
 OUTPUT_LOG_HEADERS = {'ma200':"Date,Time,Serial number,Datum ID,Session ID,"
                               "Data format version,Firmware version,Date / Time GMT,"
@@ -79,9 +79,9 @@ STATUS_FLAG_DICT = {'aero':0,'sd':0,'ma200':0}
 ###ENDGLOBALS####
 
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(STATUS_LED_PIN,GPIO.OUT)
-GPIO.output(STATUS_LED_PIN,0)
+#GPIO.setmode(GPIO.BCM)
+#GPIO.setup(STATUS_LED_PIN,GPIO.OUT)
+#GPIO.output(STATUS_LED_PIN,0)
 
 
 aethlabs_symlink = '/dev/aethlabs'
@@ -282,8 +282,8 @@ def sd_thread():
             SD_MAX = decibel
 
 def enable_led():
-    print ("Blinking led")
-    GPIO.output(STATUS_LED_PIN,1)
+    print ("Enable flag led")
+    #GPIO.output(STATUS_LED_PIN,1)
     #time.sleep(0.2)
     #GPIO.output(STATUS_LED_PIN,0)
 
@@ -333,13 +333,13 @@ def main():
         main_thread()
     else:
         print ("Could not open serial ports!")
-        GPIO.output(STATUS_LED_PIN,1)
+        #GPIO.output(STATUS_LED_PIN,1)
 
 if __name__ == '__main__':
     try:
         main()
     except KeyboardInterrupt:
         print ("Cleaning up GPIO")
-        GPIO.cleanup()
+        #GPIO.cleanup()
 
 #consider throwing the start and stop aero sampling functions into the class
