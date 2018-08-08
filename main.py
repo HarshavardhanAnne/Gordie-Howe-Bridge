@@ -10,6 +10,7 @@ sys.path.insert(0, './lib/AethLabs-MA200-serial/')
 from sd_4023 import SD_4023
 from aerocet531s import Aerocet531s
 from ma200 import MA200
+from tentacle_pi.AM2315 import AM2315
 import Adafruit_GPIO.SPI as SPI
 from Adafruit_MCP3008 import MCP3008
 import getdevices
@@ -34,7 +35,7 @@ AERO_FILE_NAME = PATH_TO_USB + 'output_aerocet531.log'
 SD_FILE_NAME = PATH_TO_USB + 'output_sd4023.log'
 CO2_FILE_NAME = PATH_TO_USB + 'output_co2.log'
 FLOW_FILE_NAME = PATH_TO_USB + 'output_flow.log'
-TMP_FILE_NAME = PATH_TO_USB + 'output_tmp36.log'
+AM_FILE_NAME = PATH_TO_USB + 'output_am2315.log'
 MA200_FILE_NAME = PATH_TO_USB + 'output_ma200.log'
 MAX_NUM_RETRIES = 5
 CLK = 18
@@ -43,7 +44,6 @@ MOSI = 24
 CS = 25
 ADC_CO2_PIN = 0
 ADC_FLOW_PIN = 2
-ADC_TMP_PIN = 4
 NUM_MIN_RUN = 5
 #STATUS_LED_PIN = 5 #RPi GPIO_5
 
@@ -61,7 +61,7 @@ OUTPUT_LOG_HEADERS = {'ma200':"Date,Time,Serial number,Datum ID,Session ID,"
                              "PM4(ug/m3),PM7(ug/m3),PM10(ug/m3),TSP(ug/m3),AT(F),RH(%),"
                              "Location,Seconds,Status\r\n",
                       'co2':'Date,Time,Analog_Voltage\r\n',
-                      'tmp':'Date,Time,Temp(Celsius)\r\n',
+                      'am':'Date,Time,Temp(Celsius),Humidity,crc_check\r\n',
                       'flow':'Date,Time,Analog_Voltage\r\n'}
 ###ENDCONSTANTS####
 
@@ -118,13 +118,14 @@ sdObject = SD_4023(sd_port,1)
 aeroObject = Aerocet531s(38400,aerocet_port,1)
 maObject = MA200(aethlabs_symlink,1)
 mcp = MCP3008(clk=CLK, cs=CS, miso=MISO, mosi=MOSI)
+am = AM2315(0x5c,"/dev/i2c-1")
 
 #the 0 indicates unbuffered, therefore it will always write to file immediately
 file_aero = open(AERO_FILE_NAME,"a",0)
 file_sd = open(SD_FILE_NAME,"a",0)
 file_co2 = open(CO2_FILE_NAME,"a",0)
 file_flow = open(FLOW_FILE_NAME,"a",0)
-file_tmp = open(TMP_FILE_NAME,'a',0)
+file_am = open(AM_FILE_NAME,'a',0)
 file_ma200 = open(MA200_FILE_NAME,"a",0)
 
 if os.path.getsize(AERO_FILE_NAME) == 0:
@@ -139,9 +140,9 @@ if os.path.getsize(CO2_FILE_NAME) == 0:
 if os.path.getsize(FLOW_FILE_NAME) == 0:
     print ("(FLOW): Empty output log. Writing header.")
     file_flow.write(OUTPUT_LOG_HEADERS['flow'])
-if os.path.getsize(TMP_FILE_NAME) == 0:
-    print ("(TMP): Empty output log. Writing header")
-    file_tmp.write(OUTPUT_LOG_HEADERS['tmp'])
+if os.path.getsize(AM_FILE_NAME) == 0:
+    print ("(AM): Empty output log. Writing header")
+    file_am.write(OUTPUT_LOG_HEADERS['am'])
 if os.path.getsize(MA200_FILE_NAME) == 0:
     print ("(MA200): Empty output log. Writing header.")
     file_ma200.write(OUTPUT_LOG_HEADERS['ma200'])
@@ -221,13 +222,12 @@ def main_thread():
 
     ch0 = mcp.read_adc(ADC_CO2_PIN)
     ch2 = mcp.read_adc(ADC_FLOW_PIN)
-    ch4 = mcp.read_adc(ADC_TMP_PIN)
-    ch4 = ( ( (ch4 / 1024.0) * 5.0 * 1000.0) - 500.0) / 10.0
+    temperature, humidity, crc_check = am.sense()
     d = datetime.now()
     str_d = d.strftime('%Y-%m-%d,%H:%M:%S:%f')
     file_co2.write("%s,%d\r\n" % (str_d,ch0))
     file_flow.write("%s,%d\r\n" % (str_d, ch2))
-    file_tmp.write("%s,%f\r\n" % (str_d,ch4))
+    file_am.write("%s,%0.1f,%0.1f,%d\r\n" % (str_d,temperature,humidity,crc_check))
 
     if STATUS_FLAG_DICT['aero'] == 1:
         #We have an error, try restarting the serial connection to the aero
@@ -322,8 +322,8 @@ def main():
         file_co2.write('\r\n')
         file_flow.write('#'*10)
         file_flow.write('\r\n')
-        file_tmp.write('#'*10)
-        file_tmp.write('\r\n')
+        file_am.write('#'*10)
+        file_am.write('\r\n')
         file_ma200.write('#'*10)
         file_ma200.write('\r\n')
 
