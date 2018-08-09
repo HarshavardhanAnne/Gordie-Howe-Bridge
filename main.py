@@ -21,9 +21,11 @@ for i in usb_paths:
     print i
 
 if len(usb_paths) > 0:
-    PATH_TO_USB = '/media/usb0/' + time.strftime("%Y%m%d-%H%M%S") + '/'
+    usb_dir = "/media/usb/"
+    PATH_TO_USB = os.path.join(usb_dir,time.strftime("%Y-%m-%d_%H-%M-%S"))
 else:
-    PATH_TO_USB = './' + time.strftime("%Y-%m-%d-%H:%M:%S") + '/'
+    local_dir = "./"
+    PATH_TO_USB = os.path.join(local_dir,time.strftime("%Y-%m-%d_%H-%M-%S")
 
 os.makedirs(PATH_TO_USB)
 
