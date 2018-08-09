@@ -23,7 +23,7 @@ for i in usb_paths:
 if len(usb_paths) > 0:
     PATH_TO_USB = '/media/usb0/' + time.strftime("%Y%m%d-%H%M%S") + '/'
 else:
-    PATH_TO_USB = './' + time.strftime("%Y%m%d-%H%M%S") + '/'
+    PATH_TO_USB = './' + time.strftime("%Y-%m-%d-%H:%M:%S") + '/'
 
 os.makedirs(PATH_TO_USB)
 
@@ -228,8 +228,8 @@ def main_thread():
     temperature, humidity, crc_check = am.sense()
     d = datetime.now()
     str_d = d.strftime('%Y-%m-%d,%H:%M:%S:%f')
-    file_co2.write("%s,%d\r\n" % (str_d,ch0))
-    file_flow.write("%s,%d\r\n" % (str_d, ch2))
+    file_co2.write("%s,%d\r\n" % (str_d,ch0/1024.0))
+    file_flow.write("%s,%d\r\n" % (str_d, ch2/1024.0))
     file_am.write("%s,%0.1f,%0.1f,%d\r\n" % (str_d,temperature,humidity,crc_check))
 
     if STATUS_FLAG_DICT['aero'] == 1:
@@ -277,6 +277,7 @@ def sd_thread():
         close_connections()
 
     if not sdObject.get_status():
+        print ("main.py: Reading sd_4023")
         decibel = sdObject.read_decibel()
         if decibel is not None:
             SD_SUM = SD_SUM + decibel
