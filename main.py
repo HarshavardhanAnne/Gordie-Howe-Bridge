@@ -29,7 +29,7 @@ os.makedirs(PATH_TO_USB)
 
 #Redirection all print statments to a log file
 timestr = PATH_TO_USB + time.strftime("%Y%m%d-%H%M%S") + "_debug.log"
-#sys.stdout = open(timestr,"w")
+sys.stdout = open(timestr,"w")
 
 ###CONSTANTS####
 _DEBUGVAR_ = True
@@ -228,8 +228,8 @@ def main_thread():
     temperature, humidity, crc_check = am.sense()
     d = datetime.now()
     str_d = d.strftime('%Y-%m-%d,%H:%M:%S:%f')
-    file_co2.write("%s,%d\r\n" % (str_d,ch0/1024.0))
-    file_flow.write("%s,%d\r\n" % (str_d, ch2/1024.0))
+    file_co2.write("%s,%d\r\n" % (str_d,float(ch0/1024.0)))
+    file_flow.write("%s,%d\r\n" % (str_d, float(ch2/1024.0)))
     file_am.write("%s,%0.1f,%0.1f,%d\r\n" % (str_d,temperature,humidity,crc_check))
 
     if STATUS_FLAG_DICT['aero'] == 1:
