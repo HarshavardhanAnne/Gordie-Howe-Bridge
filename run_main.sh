@@ -2,4 +2,4 @@
 
 sleep 300
 
-sudo python /home/pi/sph-batt/main.py &
+#sudo python /home/pi/sph-batt/main.py &

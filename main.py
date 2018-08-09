@@ -279,8 +279,9 @@ def sd_thread():
         close_connections()
 
     if not sdObject.get_status():
-        print ("main.py: Reading sd_4023")
         decibel = sdObject.read_decibel()
+        print ("main.py: Reading sd_4023"),
+        print (decibel)
         if decibel is not None:
             SD_SUM = SD_SUM + decibel
             SD_NUM_OF_READS += 1
