@@ -21,9 +21,9 @@ for i in usb_paths:
     print i
 
 if len(usb_paths) > 0:
-    PATH_TO_USB = '/media/usb0/'
+    PATH_TO_USB = '/media/usb0/' + time.strftime("%Y%m%d-%H%M%S") + '/'
 else:
-    PATH_TO_USB = ''
+    PATH_TO_USB = './' + time.strftime("%Y%m%d-%H%M%S") + '/'
 
 #Redirection all print statments to a log file
 timestr = PATH_TO_USB + time.strftime("%Y%m%d-%H%M%S") + "_debug.log"
