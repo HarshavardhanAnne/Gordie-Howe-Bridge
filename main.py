@@ -29,7 +29,7 @@ os.makedirs(PATH_TO_USB)
 
 #Redirection all print statments to a log file
 timestr = PATH_TO_USB + time.strftime("%Y%m%d-%H%M%S") + "_debug.log"
-sys.stdout = open(timestr,"w")
+#sys.stdout = open(timestr,"w")
 
 ###CONSTANTS####
 _DEBUGVAR_ = True
