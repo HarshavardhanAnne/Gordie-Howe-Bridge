@@ -35,12 +35,12 @@ sys.stdout = open(timestr,"w")
 
 ###CONSTANTS####
 _DEBUGVAR_ = True
-AERO_FILE_NAME = PATH_TO_USB + 'output_aerocet531.log'
-SD_FILE_NAME = PATH_TO_USB + 'output_sd4023.log'
-CO2_FILE_NAME = PATH_TO_USB + 'output_co2.log'
-FLOW_FILE_NAME = PATH_TO_USB + 'output_flow.log'
-AM_FILE_NAME = PATH_TO_USB + 'output_am2315.log'
-MA200_FILE_NAME = PATH_TO_USB + 'output_ma200.log'
+AERO_FILE_NAME = PATH_TO_USB + '/output_aerocet531.log'
+SD_FILE_NAME = PATH_TO_USB + '/output_sd4023.log'
+CO2_FILE_NAME = PATH_TO_USB + '/output_co2.log'
+FLOW_FILE_NAME = PATH_TO_USB + '/output_flow.log'
+AM_FILE_NAME = PATH_TO_USB + '/output_am2315.log'
+MA200_FILE_NAME = PATH_TO_USB + '/output_ma200.log'
 MAX_NUM_RETRIES = 5
 CLK = 18
 MISO = 23
