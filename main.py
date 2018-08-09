@@ -19,12 +19,14 @@ usb_paths = getdevices.serial_ports('/dev/sd*')
 for i in usb_paths:
     print i
 
+
+local_dir = "./"
+PATH_TO_USB = os.path.join(local_dir,time.strftime("%Y-%m-%d_%H-%M-%S")
+
 if len(usb_paths) > 0:
     usb_dir = "/media/usb/"
     PATH_TO_USB = os.path.join(usb_dir,time.strftime("%Y-%m-%d_%H-%M-%S"))
-else:
-    local_dir = "/"
-    PATH_TO_USB = os.path.join(local_dir,time.strftime("%Y-%m-%d_%H-%M-%S")
+
 
 os.makedirs(PATH_TO_USB)
 
