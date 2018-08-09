@@ -182,7 +182,8 @@ def main_thread():
     if not STATUS_FLAG_DICT['sd']:
         d = datetime.now()
         str_d = d.strftime('%Y-%m-%d,%H:%M:%S:%f')
-        file_sd.write("%s,%.3f,%.3f\r\n" % (str_d,SD_SUM/SD_NUM_OF_READS,SD_MAX))
+        if SD_NUM_OF_READS != 0:
+            file_sd.write("%s,%.3f,%.3f\r\n" % (str_d,SD_SUM/SD_NUM_OF_READS,SD_MAX))
         SD_SUM = 0
         SD_NUM_OF_READS = 0
         SD_MAX = 0
