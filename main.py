@@ -226,12 +226,14 @@ def main_thread():
             file_ma200.write("%s,%s\r\n" % (str_d,ma_data))
 
     ch0 = mcp.read_adc(ADC_CO2_PIN)
+    avoltage_co2 = float(ch0/1024.00)
     ch2 = mcp.read_adc(ADC_FLOW_PIN)
+    avoltage_flow = float(ch2/1024.00)
     temperature, humidity, crc_check = am.sense()
     d = datetime.now()
     str_d = d.strftime('%Y-%m-%d,%H:%M:%S:%f')
-    file_co2.write("%s,%d\r\n" % (str_d,ch0))
-    file_flow.write("%s,%d\r\n" % (str_d, ch2))
+    file_co2.write("%s,%d\r\n" % (str_d,avoltage_co2))
+    file_flow.write("%s,%d\r\n" % (str_d, avoltage_flow))
     file_am.write("%s,%0.1f,%0.1f,%d\r\n" % (str_d,temperature,humidity,crc_check))
 
     if STATUS_FLAG_DICT['aero'] == 1:
