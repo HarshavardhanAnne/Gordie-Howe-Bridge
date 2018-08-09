@@ -2,7 +2,6 @@ import threading
 import time
 import sys
 import os
-import os.path
 from datetime import datetime
 sys.path.insert(0, './lib/Met-One-Aerocet-531s-serial/')
 sys.path.insert(0, './lib/REED-SD-4023-serial/')
@@ -24,7 +23,7 @@ if len(usb_paths) > 0:
     usb_dir = "/media/usb/"
     PATH_TO_USB = os.path.join(usb_dir,time.strftime("%Y-%m-%d_%H-%M-%S"))
 else:
-    local_dir = "./"
+    local_dir = "/"
     PATH_TO_USB = os.path.join(local_dir,time.strftime("%Y-%m-%d_%H-%M-%S")
 
 os.makedirs(PATH_TO_USB)
