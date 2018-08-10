@@ -222,13 +222,6 @@ def main_thread():
             file_aero.write("%s %s %s %s %s %s %s %s %s %s %s\n" %(str_d,rec_time,rec_PM1,rec_PM2_5,rec_PM4,rec_PM7,rec_PM10,rec_TSP,rec_LOC,rec_SEC,rec_STA))
             '''
 
-    if not STATUS_FLAG_DICT['ma200']:
-        ma_data = maObject.read()
-        if ma_data is not None:
-            d = datetime.now()
-            str_d = d.strftime('%Y-%m-%d,%H:%M:%S:%f')
-            file_ma200.write("%s,%s\r\n" % (str_d,ma_data))
-
     ch0 = mcp.read_adc(ADC_CO2_PIN)
     #avoltage_co2 = float(ch0/1024.00 * 5.0 * 10.0 / 4.0)
     ch2 = mcp.read_adc(ADC_FLOW_PIN)
@@ -239,6 +232,13 @@ def main_thread():
     file_co2.write("%s,%d\r\n" % (str_d,ch0))
     file_flow.write("%s,%dr\n" % (str_d, ch2))
     file_am.write("%s,%0.1f,%0.1f,%d\r\n" % (str_d,temperature,humidity,crc_check))
+
+    if not STATUS_FLAG_DICT['ma200']:
+        ma_data = maObject.read()
+        if ma_data is not None:
+            d = datetime.now()
+            str_d = d.strftime('%Y-%m-%d,%H:%M:%S:%f')
+            file_ma200.write("%s,%s\r\n" % (str_d,ma_data))
 
     if STATUS_FLAG_DICT['aero'] == 1:
         #We have an error, try restarting the serial connection to the aero
