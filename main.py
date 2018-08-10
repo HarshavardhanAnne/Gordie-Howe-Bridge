@@ -230,9 +230,9 @@ def main_thread():
             file_ma200.write("%s,%s\r\n" % (str_d,ma_data))
 
     ch0 = mcp.read_adc(ADC_CO2_PIN)
-    avoltage_co2 = float(ch0/1024.00)
+    avoltage_co2 = float(ch0/1024.00 * 5.0 * 10.0 / 4.0)
     ch2 = mcp.read_adc(ADC_FLOW_PIN)
-    avoltage_flow = float(ch2/1024.00)
+    avoltage_flow = float(ch2/1024.00 * 5.0 * 5.0 / 4.0)
     temperature, humidity, crc_check = am.sense()
     d = datetime.now()
     str_d = d.strftime('%Y-%m-%d,%H:%M:%S:%f')
