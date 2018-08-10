@@ -158,7 +158,7 @@ if os.path.getsize(MA200_FILE_NAME) == 0:
 def aero_activate_thread():
     if not aeroObject.get_status():
         aeroObject.activate_comm_mode()
-    threading.Timer(55.0,aero_activate_thread).start()
+    #threading.Timer(55.0,aero_activate_thread).start()
     tactive = threading.Timer(55.0,aero_activate_thread)
     tactive.setDaemon(True)
     tactive.start()
@@ -212,7 +212,7 @@ def main_thread():
     d = datetime.now()
     str_d = d.strftime('%Y-%m-%d,%H:%M:%S:%f')
     file_co2.write("%s,%d\r\n" % (str_d,ch0))
-    file_flow.write("%s,%dr\n" % (str_d, ch2))
+    file_flow.write("%s,%d\n" % (str_d, ch2))
     file_am.write("%s,%0.1f,%0.1f,%d\r\n" % (str_d,temperature,humidity,crc_check))
 
     if not STATUS_FLAG_DICT['aero']:
@@ -227,7 +227,7 @@ def main_thread():
     if STATUS_FLAG_DICT['aero'] == 1:
         #We have an error, try restarting the serial connection to the aero
         print ("(ERR0R): STATUS FLAG for AERO == 1")
-        enable_led()
+        fixAero()
         #fixAero()
     if STATUS_FLAG_DICT['sd'] == 1:
         #We have an error, try restarting the serial connected to the sd
