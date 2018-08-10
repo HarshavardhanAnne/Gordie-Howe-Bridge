@@ -30,8 +30,10 @@ fi
 sudo chmod +x hwclock-set
 sudo /bin/cp -rf hwclock-set /lib/udev/
 
-#Modify /boot/config.txt and add dtoverlay
+#Modify /boot/config.txt and add dtoverlay and enable i2c_arm
 sudo echo "dtoverlay=i2c-rtc,ds3231" >> /boot/config.txt
+sudo echo "dtparam=i2c_arm=on" >> /boot/config.txt
+
 
 #Adafruit_MCP3008 installation
 sudo apt-get update
@@ -43,6 +45,9 @@ sudo git submodule init
 sudo git submodule update
 
 #Install the am2315 python library
+sudo apt-get install i2c-tools
+sudo apt-get install python-dev
+sudo apt-get install libi2c-dev
 sudo python ./lib/am2315/setup.py install
 
 ###END####
