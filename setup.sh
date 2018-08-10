@@ -7,6 +7,7 @@ sudo apt-get update
 sudo apt-get upgrade
 
 #Usb automount installation
+sudo apt-get install usbmount
 
 #Bind aethlabs ma200 serial cable to symbolic link
 cp ./setup_files/99-usb-serial.rules /etc/udev/rules.d/
@@ -21,6 +22,9 @@ then
 else
   echo "Unable to create symbolic link"
 fi
+
+#Modify crontab
+sudo crontab -l | {cat; echo "@reboot /usr/bin/python /home/pi/sph-batt/main.py &"; } | sudo crontab -
 
 #Overwrite existing hwclock-set file with modified hwclock-set file
 sudo chmod +x hwclock-set

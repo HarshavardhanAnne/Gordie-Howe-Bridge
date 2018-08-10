@@ -108,6 +108,9 @@ if (_DEBUGVAR_):
     for p in port_list:
         print ("%d: %s" % (wap,p))
         wap += 1
+if len(port_list) < 3:
+    sys.exit(1)
+
 if aethlabs_port is not None and port_list is not None: port_list.remove(aethlabs_port)
 
 if (_DEBUGVAR_):
@@ -349,5 +352,3 @@ if __name__ == '__main__':
     except KeyboardInterrupt:
         print ("Cleaning up GPIO")
         #GPIO.cleanup()
-
-#consider throwing the start and stop aero sampling functions into the class
