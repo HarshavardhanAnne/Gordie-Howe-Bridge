@@ -17,8 +17,8 @@ import getdevices
 #import RPi.GPIO as GPIO
 
 usb_paths = getdevices.serial_ports('/dev/sd*')
-for i in usb_paths:
-    print i
+#for i in usb_paths:
+#    print i
 
 if len(usb_paths) == 0:
     local_dir = "./"
