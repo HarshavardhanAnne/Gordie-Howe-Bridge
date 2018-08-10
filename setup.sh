@@ -24,7 +24,7 @@ else
 fi
 
 #Modify crontab
-sudo crontab -l | {cat; echo "@reboot /usr/bin/python /home/pi/sph-batt/main.py &"; } | sudo crontab -
+(sudo crontab -l ; echo "@reboot /usr/bin/python /home/pi/sph-batt/main.py &") | sudo crontab -
 
 #Overwrite existing hwclock-set file with modified hwclock-set file
 sudo chmod +x hwclock-set
