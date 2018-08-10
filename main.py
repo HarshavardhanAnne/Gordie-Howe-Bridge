@@ -187,6 +187,14 @@ def main_thread():
     STATUS_FLAG_DICT['sd'] = sdObject.get_status()
     STATUS_FLAG_DICT['ma200'] = maObject.get_status()
 
+
+    if not STATUS_FLAG_DICT['ma200']:
+        ma_data = maObject.read()
+        if ma_data is not None:
+            d = datetime.now()
+            str_d = d.strftime('%Y-%m-%d,%H:%M:%S:%f')
+            file_ma200.write("%s,%s\r\n" % (str_d,ma_data))
+
     if not STATUS_FLAG_DICT['sd']:
         d = datetime.now()
         str_d = d.strftime('%Y-%m-%d,%H:%M:%S:%f')
@@ -195,32 +203,6 @@ def main_thread():
         SD_SUM = 0
         SD_NUM_OF_READS = 0
         SD_MAX = 0
-
-    if not STATUS_FLAG_DICT['aero']:
-        res_list = aeroObject.command('3')
-        if len(res_list) >= 6:
-            most_recent_record = len(res_list) - 1
-            aero_data = res_list[most_recent_record][0:10] + ',' + res_list[most_recent_record][11:]
-            d = datetime.now()
-            str_d = d.strftime('%Y-%m-%d,%H:%M:%S:%f')
-            file_aero.write("%s,%s\r\n" % (str_d,aero_data))
-            #Old way
-            '''
-            most_recent_record = len(res_list) - 1
-            rec_time = res_list[most_recent_record][0:19]
-            rec_PM1 = res_list[most_recent_record][20:25]
-            rec_PM2_5 = res_list[most_recent_record][26:31]
-            rec_PM4 = res_list[most_recent_record][32:37]
-            rec_PM7 = res_list[most_recent_record][38:43]
-            rec_PM10 = res_list[most_recent_record][44:49]
-            rec_TSP = res_list[most_recent_record][50:55]
-            rec_LOC = res_list[most_recent_record][58:61]
-            rec_SEC = res_list[most_recent_record][62:65]
-            rec_STA = res_list[most_recent_record][66:69]
-            d = datetime.now()
-            str_d = d.strftime('%Y-%m-%d %H:%M:%S:%f')
-            file_aero.write("%s %s %s %s %s %s %s %s %s %s %s\n" %(str_d,rec_time,rec_PM1,rec_PM2_5,rec_PM4,rec_PM7,rec_PM10,rec_TSP,rec_LOC,rec_SEC,rec_STA))
-            '''
 
     ch0 = mcp.read_adc(ADC_CO2_PIN)
     #avoltage_co2 = float(ch0/1024.00 * 5.0 * 10.0 / 4.0)
@@ -233,12 +215,14 @@ def main_thread():
     file_flow.write("%s,%dr\n" % (str_d, ch2))
     file_am.write("%s,%0.1f,%0.1f,%d\r\n" % (str_d,temperature,humidity,crc_check))
 
-    if not STATUS_FLAG_DICT['ma200']:
-        ma_data = maObject.read()
-        if ma_data is not None:
+    if not STATUS_FLAG_DICT['aero']:
+        res_list = aeroObject.command('3')
+        if len(res_list) >= 6:
+            most_recent_record = len(res_list) - 1
+            aero_data = res_list[most_recent_record][0:10] + ',' + res_list[most_recent_record][11:]
             d = datetime.now()
             str_d = d.strftime('%Y-%m-%d,%H:%M:%S:%f')
-            file_ma200.write("%s,%s\r\n" % (str_d,ma_data))
+            file_aero.write("%s,%s\r\n" % (str_d,aero_data))
 
     if STATUS_FLAG_DICT['aero'] == 1:
         #We have an error, try restarting the serial connection to the aero
