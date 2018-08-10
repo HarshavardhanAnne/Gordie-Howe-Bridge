@@ -4,9 +4,9 @@ import time
 import sys
 import os
 from datetime import datetime
-sys.path.insert(0, './lib/Met-One-Aerocet-531s-serial/')
-sys.path.insert(0, './lib/REED-SD-4023-serial/')
-sys.path.insert(0, './lib/AethLabs-MA200-serial/')
+sys.path.insert(0, '/home/pi/sph-batt/lib/Met-One-Aerocet-531s-serial/')
+sys.path.insert(0, '/home/pi/sph-batt/lib/REED-SD-4023-serial/')
+sys.path.insert(0, '/home/pi/sph-batt/lib/AethLabs-MA200-serial/')
 from sd_4023 import SD_4023
 from aerocet531s import Aerocet531s
 from ma200 import MA200
