@@ -236,8 +236,8 @@ def main_thread():
     temperature, humidity, crc_check = am.sense()
     d = datetime.now()
     str_d = d.strftime('%Y-%m-%d,%H:%M:%S:%f')
-    file_co2.write("%s,%d\r\n" % (str_d,avoltage_co2))
-    file_flow.write("%s,%d\r\n" % (str_d, avoltage_flow))
+    file_co2.write("%s,%0.1f\r\n" % (str_d,avoltage_co2))
+    file_flow.write("%s,0.1f\r\n" % (str_d, avoltage_flow))
     file_am.write("%s,%0.1f,%0.1f,%d\r\n" % (str_d,temperature,humidity,crc_check))
 
     if STATUS_FLAG_DICT['aero'] == 1:

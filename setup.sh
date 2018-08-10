@@ -6,6 +6,22 @@
 sudo apt-get update
 sudo apt-get upgrade
 
+#Pull all submodule repo's files
+sudo git pull
+sudo git submodule init
+sudo git submodule update --recursive --remote
+
+#Adafruit_MCP3008 installation
+sudo apt-get update
+sudo apt-get install build-essential python-dev python-smbus python-pip
+sudo pip install adafruit-mcp3008
+
+#Install the am2315 python library
+sudo apt-get install i2c-tools
+sudo apt-get install python-dev
+sudo apt-get install libi2c-dev
+sudo python ./lib/am2315/setup.py install
+
 #Usb automount installation
 sudo apt-get install usbmount
 
@@ -30,24 +46,11 @@ fi
 sudo chmod +x hwclock-set
 sudo /bin/cp -rf hwclock-set /lib/udev/
 
-#Modify /boot/config.txt and add dtoverlay and enable i2c_arm
+#Modify /boot/config.txt and add dtoverlay
 sudo echo "dtoverlay=i2c-rtc,ds3231" >> /boot/config.txt
+
+#Enable i2c_1 bus
 sudo echo "dtparam=i2c_arm=on" >> /boot/config.txt
-
-
-#Adafruit_MCP3008 installation
-sudo apt-get update
-sudo apt-get install build-essential python-dev python-smbus python-pip
-sudo pip install adafruit-mcp3008
-
-#Pull all submodule repo's files
-sudo git submodule init
-sudo git submodule update
-
-#Install the am2315 python library
-sudo apt-get install i2c-tools
-sudo apt-get install python-dev
-sudo apt-get install libi2c-dev
-sudo python ./lib/am2315/setup.py install
+sudo echo "i2c-dev" >> /etc/modules
 
 ###END####
