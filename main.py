@@ -49,7 +49,7 @@ MOSI = 24
 CS = 25
 ADC_CO2_PIN = 0
 ADC_FLOW_PIN = 2
-NUM_MIN_RUN = 5
+NUM_MIN_RUN = 525600
 #STATUS_LED_PIN = 5 #RPi GPIO_5
 
 OUTPUT_LOG_HEADERS = {'ma200':"Date,Time,Serial number,Datum ID,Session ID,"
@@ -172,7 +172,7 @@ def main_thread():
         tmain.setDaemon(True)
         tmain.start()
     elif NUM_MIN_RUN >= 0:
-        NUM_MIN_RUN -= 1
+        #NUM_MIN_RUN -= 1
         tmain = threading.Timer(59.0,main_thread)
         tmain.setDaemon(True)
         tmain.start()
@@ -283,8 +283,6 @@ def sd_thread():
 
     if not sdObject.get_status():
         decibel = sdObject.read_decibel()
-        print ("main.py: Reading sd_4023"),
-        print (decibel)
         if decibel is not None:
             SD_SUM = SD_SUM + decibel
             SD_NUM_OF_READS += 1
