@@ -21,7 +21,7 @@ usb_paths = getdevices.serial_ports('/dev/sd*')
 #    print i
 
 if len(usb_paths) == 0:
-    local_dir = "./"
+    local_dir = "/home/pi/sph-batt/"
     PATH_TO_USB = os.path.join(local_dir,time.strftime("%Y-%m-%d_%H-%M-%S"))
 else:
     usb_dir = "/media/usb/"
