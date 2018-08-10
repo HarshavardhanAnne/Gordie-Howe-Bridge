@@ -158,10 +158,10 @@ if os.path.getsize(MA200_FILE_NAME) == 0:
 def aero_activate_thread():
     if not aeroObject.get_status():
         aeroObject.activate_comm_mode()
-    #threading.Timer(55.0,aero_activate_thread).start()
-    tactive = threading.Timer(55.0,aero_activate_thread)
-    tactive.setDaemon(True)
-    tactive.start()
+    threading.Timer(55.0,aero_activate_thread).start()
+    #tactive = threading.Timer(55.0,aero_activate_thread)
+    #tactive.setDaemon(True)
+    #tactive.start()
 
 def main_thread():
     global SD_SUM
