@@ -212,7 +212,7 @@ def main_thread():
     d = datetime.now()
     str_d = d.strftime('%Y-%m-%d,%H:%M:%S:%f')
     file_co2.write("%s,%d\r\n" % (str_d,ch0))
-    file_flow.write("%s,%d\n" % (str_d, ch2))
+    file_flow.write("%s,%d\r\n" % (str_d, ch2))
     file_am.write("%s,%0.1f,%0.1f,%d\r\n" % (str_d,temperature,humidity,crc_check))
 
     if not STATUS_FLAG_DICT['aero']:
