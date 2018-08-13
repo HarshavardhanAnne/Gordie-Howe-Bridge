@@ -205,14 +205,14 @@ def main_thread():
         SD_MAX = 0
 
     ch0 = mcp.read_adc(ADC_CO2_PIN)
-    #avoltage_co2 = float(ch0/1024.00 * 5.0 * 10.0 / 4.0)
+    avoltage_co2 = float(ch0/1024.00 * 5.0)
     ch2 = mcp.read_adc(ADC_FLOW_PIN)
-    #avoltage_flow = float(ch2/1024.00 * 5.0 * 5.0 / 4.0)
+    avoltage_flow = float(ch2/1024.00 * 5.0)
     temperature, humidity, crc_check = am.sense()
     d = datetime.now()
     str_d = d.strftime('%Y-%m-%d,%H:%M:%S:%f')
-    file_co2.write("%s,%d\r\n" % (str_d,ch0))
-    file_flow.write("%s,%d\r\n" % (str_d, ch2))
+    file_co2.write("%s,%d\r\n" % (str_d,avoltage_co2))
+    file_flow.write("%s,%d\r\n" % (str_d, avoltage_flow))
     file_am.write("%s,%0.1f,%0.1f,%d\r\n" % (str_d,temperature,humidity,crc_check))
 
     if not STATUS_FLAG_DICT['aero']:
