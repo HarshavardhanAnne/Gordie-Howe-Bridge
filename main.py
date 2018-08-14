@@ -17,8 +17,6 @@ import getdevices
 import RPi.GPIO as GPIO
 
 usb_paths = getdevices.serial_ports('/dev/sd*')
-#for i in usb_paths:
-#    print i
 
 if len(usb_paths) == 0:
     local_dir = "/home/pi/sph-batt/"
@@ -30,7 +28,6 @@ else:
 
 os.makedirs(PATH_TO_USB)
 
-#Redirection all print statments to a log file
 timestr = PATH_TO_USB + "/debug.log"
 sys.stdout = open(timestr,"a",0)
 
@@ -50,7 +47,7 @@ CS = 25
 ADC_CO2_PIN = 0
 ADC_FLOW_PIN = 2
 NUM_MIN_RUN = 525600
-STATUS_LED_PIN = 5 #RPi GPIO_5
+STATUS_LED_PIN = 5
 
 OUTPUT_LOG_HEADERS = {'ma200':"Date,Time,Serial number,Datum ID,Session ID,"
                               "Data format version,Firmware version,Date / Time GMT,"
@@ -74,12 +71,6 @@ OUTPUT_LOG_HEADERS = {'ma200':"Date,Time,Serial number,Datum ID,Session ID,"
 SD_SUM = 0
 SD_NUM_OF_READS = 0
 SD_MAX = 0
-'''
-Status flag dictionary is used to check if the status of each Instrument
-At the end of the main thread, we check to make sure all the values in our
-status flag dictionary are zeros. If any are 1, then we will try to reestablish
-a connection with the device
-'''
 STATUS_FLAG_DICT = {'aero':0,'sd':0,'ma200':0}
 ###ENDGLOBALS####
 
@@ -128,7 +119,6 @@ maObject = MA200(aethlabs_symlink,1)
 mcp = MCP3008(clk=CLK, cs=CS, miso=MISO, mosi=MOSI)
 am = AM2315(0x5c,"/dev/i2c-1")
 
-#the 0 indicates unbuffered, therefore it will always write to file immediately
 file_aero = open(AERO_FILE_NAME,"a",0)
 file_sd = open(SD_FILE_NAME,"a",0)
 file_co2 = open(CO2_FILE_NAME,"a",0)
@@ -159,9 +149,6 @@ def aero_activate_thread():
     if not aeroObject.get_status():
         aeroObject.activate_comm_mode()
     threading.Timer(55.0,aero_activate_thread).start()
-    #tactive = threading.Timer(55.0,aero_activate_thread)
-    #tactive.setDaemon(True)
-    #tactive.start()
 
 def main_thread():
     global SD_SUM
@@ -180,7 +167,6 @@ def main_thread():
         tmain.setDaemon(True)
         tmain.start()
     else:
-        #aeroObject.stop_aero_sampling()
         close_connections()
 
     STATUS_FLAG_DICT['aero'] = aeroObject.get_status()
@@ -225,19 +211,14 @@ def main_thread():
             file_aero.write("%s,%s\r\n" % (str_d,aero_data))
 
     if STATUS_FLAG_DICT['aero'] == 1:
-        #We have an error, try restarting the serial connection to the aero
         print ("(ERR0R): STATUS FLAG for AERO == 1")
         disable_led()
-        #fixAero()
     if STATUS_FLAG_DICT['sd'] == 1:
-        #We have an error, try restarting the serial connected to the sd
         print ("(ERROR): STATUS FLAG for SD == 1")
         disable_led()
-        #fixSd()
     if STATUS_FLAG_DICT['ma200'] == 1:
         print ("(ERROR): STATUS FLAG for MA200 == 1")
         disable_led()
-        #fixMA200()
 
 def fixAero():
     print ("(AEROCET531s): Fixing the serial connection...")
@@ -320,7 +301,6 @@ def main():
         file_ma200.write('#'*10)
         file_ma200.write('\r\n')
 
-        #aeroObject.start_aero_sampling()
         aero_activate_thread()
         sd_thread()
         main_thread()
@@ -333,4 +313,3 @@ if __name__ == '__main__':
         main()
     except KeyboardInterrupt:
         print ("Cleaning up GPIO")
-        #GPIO.cleanup()
