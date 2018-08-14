@@ -51,8 +51,8 @@ echo "Adding cron job to run main.py on boot"
 
 echo "Modifying hwclock file"
 #Overwrite existing hwclock-set file with modified hwclock-set file
-sudo chmod +x hwclock-set
-sudo /bin/cp -rf hwclock-set /lib/udev/
+sudo chmod +x ./setup_files/hwclock-set
+sudo /bin/cp -rf ./setup_files/hwclock-set /lib/udev/
 
 echo "Modifying config file for RTC"
 #Modify /boot/config.txt and add dtoverlay
