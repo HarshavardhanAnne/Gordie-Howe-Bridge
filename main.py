@@ -14,7 +14,7 @@ from tentacle_pi.AM2315 import AM2315
 import Adafruit_GPIO.SPI as SPI
 from Adafruit_MCP3008 import MCP3008
 import getdevices
-#import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 
 usb_paths = getdevices.serial_ports('/dev/sd*')
 #for i in usb_paths:
@@ -50,7 +50,7 @@ CS = 25
 ADC_CO2_PIN = 0
 ADC_FLOW_PIN = 2
 NUM_MIN_RUN = 525600
-#STATUS_LED_PIN = 5 #RPi GPIO_5
+STATUS_LED_PIN = 5 #RPi GPIO_5
 
 OUTPUT_LOG_HEADERS = {'ma200':"Date,Time,Serial number,Datum ID,Session ID,"
                               "Data format version,Firmware version,Date / Time GMT,"
@@ -84,9 +84,9 @@ STATUS_FLAG_DICT = {'aero':0,'sd':0,'ma200':0}
 ###ENDGLOBALS####
 
 
-#GPIO.setmode(GPIO.BCM)
-#GPIO.setup(STATUS_LED_PIN,GPIO.OUT)
-#GPIO.output(STATUS_LED_PIN,0)
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(STATUS_LED_PIN,GPIO.OUT)
+GPIO.output(STATUS_LED_PIN,1)
 
 
 aethlabs_symlink = '/dev/aethlabs'
@@ -227,16 +227,16 @@ def main_thread():
     if STATUS_FLAG_DICT['aero'] == 1:
         #We have an error, try restarting the serial connection to the aero
         print ("(ERR0R): STATUS FLAG for AERO == 1")
-        fixAero()
+        disable_led()
         #fixAero()
     if STATUS_FLAG_DICT['sd'] == 1:
         #We have an error, try restarting the serial connected to the sd
         print ("(ERROR): STATUS FLAG for SD == 1")
-        enable_led()
+        disable_led()
         #fixSd()
     if STATUS_FLAG_DICT['ma200'] == 1:
         print ("(ERROR): STATUS FLAG for MA200 == 1")
-        enable_led()
+        disable_led()
         #fixMA200()
 
 def fixAero():
@@ -276,11 +276,9 @@ def sd_thread():
         if decibel > SD_MAX:
             SD_MAX = decibel
 
-def enable_led():
-    print ("Enable flag led")
-    #GPIO.output(STATUS_LED_PIN,1)
-    #time.sleep(0.2)
-    #GPIO.output(STATUS_LED_PIN,0)
+def disable_led():
+    print ("Disable flag led")
+    GPIO.output(STATUS_LED_PIN,0)
 
 def close_connections():
     sdObject.close()
@@ -328,7 +326,7 @@ def main():
         main_thread()
     else:
         print ("Could not open serial ports!")
-        #GPIO.output(STATUS_LED_PIN,1)
+        GPIO.output(STATUS_LED_PIN,0)
 
 if __name__ == '__main__':
     try:
