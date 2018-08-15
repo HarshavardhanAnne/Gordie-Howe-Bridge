@@ -308,6 +308,8 @@ def main():
     else:
         print ("Could not open serial ports!")
         GPIO.output(STATUS_LED_PIN,0)
+        GPIO.cleanup()
+        sys.exit(1)
 
 if __name__ == '__main__':
     try:
