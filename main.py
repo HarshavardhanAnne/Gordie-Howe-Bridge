@@ -271,7 +271,6 @@ def close_connections():
 def main():
     current_retry_number = 0
 
-    '''
     while current_retry_number < MAX_NUM_RETRIES:
         try:
             sdObject.open()
@@ -288,10 +287,6 @@ def main():
 
             continue
         break
-    '''
-    sdObject.open()
-    aeroObject.open()
-    maObject.open()
 
     if current_retry_number != MAX_NUM_RETRIES:
         file_sd.write('#'*10)
