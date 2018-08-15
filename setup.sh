@@ -47,7 +47,7 @@ fi
 
 echo "Adding cron job to run main.py on boot"
 #Modify crontab
-(sudo crontab -l ; echo "@reboot /usr/bin/python /home/pi/sph-batt/main.py &") | sudo crontab -
+(sudo crontab -l ; echo "@reboot /usr/bin/python /home/pi/Gordie-Howe-Bridge/main.py &") | sudo crontab -
 
 echo "Modifying hwclock file"
 #Overwrite existing hwclock-set file with modified hwclock-set file
