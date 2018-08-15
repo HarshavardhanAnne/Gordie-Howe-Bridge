@@ -19,7 +19,7 @@ import RPi.GPIO as GPIO
 usb_paths = getdevices.serial_ports('/dev/sd*')
 
 if len(usb_paths) == 0:
-    local_dir = "/home/pi/sph-batt/"
+    local_dir = "/home/pi/sph-batt/data/"
     PATH_TO_USB = os.path.join(local_dir,time.strftime("%Y-%m-%d_%H-%M-%S"))
 else:
     usb_dir = "/media/usb/"
@@ -271,6 +271,7 @@ def close_connections():
 def main():
     current_retry_number = 0
 
+'''
     while current_retry_number < MAX_NUM_RETRIES:
         try:
             sdObject.open()
@@ -287,6 +288,11 @@ def main():
 
             continue
         break
+'''
+    sdObject.open()
+    aeroObject.open()
+    maObject.open()
+
     if current_retry_number != MAX_NUM_RETRIES:
         file_sd.write('#'*10)
         file_sd.write('\r\n')
