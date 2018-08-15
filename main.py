@@ -194,6 +194,7 @@ def main_thread():
     avoltage_co2 = float(ch0/1024.00 * 5.0)
     ch2 = mcp.read_adc(ADC_FLOW_PIN)
     avoltage_flow = float(ch2/1024.00 * 5.0)
+    print ("Ch0 = %d, ACO2 = %0.1f, Ch2 = %d, AFLOW = %0.1f\n" % (ch0,avoltage_co2,ch2,avoltage_flow))
     temperature, humidity, crc_check = am.sense()
     d = datetime.now()
     str_d = d.strftime('%Y-%m-%d,%H:%M:%S:%f')
