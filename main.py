@@ -4,9 +4,9 @@ import time
 import sys
 import os
 from datetime import datetime
-sys.path.insert(0, '/home/pi/sph-batt/lib/Met-One-Aerocet-531s-serial/')
-sys.path.insert(0, '/home/pi/sph-batt/lib/REED-SD-4023-serial/')
-sys.path.insert(0, '/home/pi/sph-batt/lib/AethLabs-MA200-serial/')
+sys.path.insert(0, '/home/pi/Gordie-Howe-Bridge/lib/Met-One-Aerocet-531s-serial/')
+sys.path.insert(0, '/home/pi/Gordie-Howe-Bridge/lib/REED-SD-4023-serial/')
+sys.path.insert(0, '/home/pi/Gordie-Howe-Bridge/lib/AethLabs-MA200-serial/')
 from sd_4023 import SD_4023
 from aerocet531s import Aerocet531s
 from ma200 import MA200
@@ -19,7 +19,7 @@ import RPi.GPIO as GPIO
 usb_paths = getdevices.serial_ports('/dev/sd*')
 
 if len(usb_paths) == 0:
-    local_dir = "/home/pi/sph-batt/data/"
+    local_dir = "/home/pi/Gordie-Howe-Bridge/data/"
     PATH_TO_USB = os.path.join(local_dir,time.strftime("%Y-%m-%d_%H-%M-%S"))
 else:
     usb_dir = "/media/usb/"
