@@ -100,6 +100,7 @@ if (_DEBUGVAR_):
         print ("%d: %s" % (wap,p))
         wap += 1
 if len(port_list) < 3:
+    GPIO.output(STATUS_LED_PIN,0)
     sys.exit(1)
 
 if aethlabs_port is not None and port_list is not None: port_list.remove(aethlabs_port)
