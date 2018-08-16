@@ -1,0 +1,35 @@
+Before:
+0: /dev/ttyUSB0
+1: /dev/ttyUSB1
+2: /dev/ttyUSB2
+After:
+/dev/ttyUSB1
+/dev/ttyUSB2
+(AEROCET531s): Empty output log. Writing header.
+(SD4023): Empty output log. Writing header.
+(CO2): Empty output log. Writing header.
+(FLOW): Empty output log. Writing header.
+(AM): Empty output log. Writing header
+(MA200): Empty output log. Writing header.
+(SD_4023): Initializing device
+(SD_4023): Serial connection established
+(AEROCET531s): Initializing device
+(AEROCET531s): Serial connection established
+(MA200): Initializing device
+(MA200): Serial connection established
+SUCCESS!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+Activating comm mode
+(MA200): Attempting to reading data
+Writing command active '3'
+Activating comm mode
+(MA200): Attempting to reading data
+(MA200): Data received
+Writing command active '3'
+Activating comm mode
+(MA200): Attempting to reading data
+(MA200): Data received
+Writing command active '3'
+Activating comm mode
+(MA200): Attempting to reading data
+(MA200): Data received
+Writing command active '3'

@@ -1,0 +1,3 @@
+Date,Time,Record_Date,Record_Time,Time,PM1(ug/m3),PM2.5(ug/m3),PM4(ug/m3),PM7(ug/m3),PM10(ug/m3),TSP(ug/m3),AT(F),RH(%),Location,Seconds,Status
+##########
+2018-08-16,15:06:54:932581,2018-08-11,15:00:35,000.4,000.6,000.7,000.7,001.0,003.3,,,001,060,016
